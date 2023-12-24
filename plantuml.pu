@@ -1,0 +1,64 @@
+@startuml ER
+
+skinparam linetype ortho
+
+entity Image {
+  * id : string [PK]
+  --
+  * description : string
+  * hash : string
+  * width : int
+  * height : int
+  * channels : int
+}
+entity Tag {
+  * id : string [PK]
+  --
+  * name : string
+  * description : string
+}
+entity ImageTag {
+  * imageId : string [FK]
+  * tagId : string [FK]
+}
+entity Data {
+  * id : string [PK]
+  --
+  * x : int
+  * y : int
+  * width : int
+  * height : int
+  * imageId : string [FK]
+}
+entity Label {
+  * id : string [PK]
+  --
+  * name : string
+  * description : string
+}
+entity DataLabel {
+  * dataId : string [FK]
+  * labelId : string [FK]
+}
+entity Dataset {
+  * id : string [PK]
+  --
+  * name : string
+  * description : string
+  * width : int
+  * height : int
+  * channels : int
+}
+entity DatasetLabel {
+  * datasetId : string [FK]
+  * labelId : string [FK]
+}
+
+Image ||.r.o{ ImageTag
+Tag ||.l.o{ ImageTag
+Image ||.d.o{ Data
+Data ||.r.o{ DataLabel
+Label ||.l.o{ DataLabel
+Label ||.d.o{ DatasetLabel
+Dataset ||.r.o{ DatasetLabel
+@enduml

@@ -11,10 +11,12 @@ datasource db {
 }
 
 model Tag {
-  id   String @id @default(uuid())
-  name String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String @id @default(uuid())
+  name        String @unique
+  description String @default("")
+  images      Image[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Image {
@@ -24,6 +26,43 @@ model Image {
   width       Int
   height      Int
   channels    Int
+  tags        Tag[]
+  datas       Data[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Data {
+  id        String @id @default(uuid())
+  x         Int
+  y         Int
+  width     Int
+  height    Int
+  imageId   String
+  image     Image @relation(fields: [imageId], references: [id])
+  labels    Label[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Label {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String @default("")
+  datas       Data[]
+  datasets    Dataset[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Dataset {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String @default("")
+  width       Int
+  height      Int
+  channels    Int
+  labels      Label[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
